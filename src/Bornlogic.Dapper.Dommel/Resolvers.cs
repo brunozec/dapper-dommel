@@ -98,26 +98,22 @@ namespace Dommel
         /// <returns>The table name in the database for <paramref name="type"/>.</returns>
         public static string Table(Type type, ISqlBuilder sqlBuilder)
         {
-            var key = $"{sqlBuilder.GetType()}.{type}";
-            if (!TypeTableNameCache.TryGetValue(key, out var name))
+            var name = "";
+            var tableName = DommelMapper.TableNameResolver.ResolveTableName(type);
+
+            // Dots are used to define a schema which should be quoted separately
+            if (tableName.Contains('.'))
             {
-                var tableName = DommelMapper.TableNameResolver.ResolveTableName(type);
-
-                // Dots are used to define a schema which should be quoted separately
-                if (tableName.Contains('.'))
-                {
-                    name = string.Join(".", DommelMapper.TableNameResolver
-                        .ResolveTableName(type)
-                        .Split('.')
-                        .Select(x => sqlBuilder.QuoteIdentifier(x)));
-                }
-                else
-                {
-                    name = sqlBuilder.QuoteIdentifier(tableName);
-                }
-
-                TypeTableNameCache.TryAdd(key, name);
+                name = string.Join(".", DommelMapper.TableNameResolver
+                    .ResolveTableName(type)
+                    .Split('.')
+                    .Select(x => sqlBuilder.QuoteIdentifier(x)));
             }
+            else
+            {
+                name = sqlBuilder.QuoteIdentifier(tableName);
+            }
+
 
             DommelMapper.LogReceived?.Invoke($"Resolved table name '{name}' for '{type}'");
             return name;
