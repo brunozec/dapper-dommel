@@ -19,7 +19,7 @@ namespace Dommel
         /// <param name="id">The id of the entity in the database.</param>
         /// <param name="transaction">Optional transaction for the command.</param>
         /// <returns>The entity with the corresponding id.</returns>
-        public static TEntity? Get<TEntity>(this IDbConnection connection, object id, IDbTransaction? transaction = null)
+        public static TEntity Get<TEntity>(this IDbConnection connection, object id, IDbTransaction? transaction = null)
             where TEntity : class
         {
             var sql = BuildGetById(GetSqlBuilder(connection), typeof(TEntity), id, out var parameters);
@@ -36,7 +36,7 @@ namespace Dommel
         /// <param name="transaction">Optional transaction for the command.</param>
         ///  <param name="cancellationToken">Optional cancellation token for the command.</param>
         /// <returns>The entity with the corresponding id.</returns>
-        public static async Task<TEntity?> GetAsync<TEntity>(this IDbConnection connection, object id, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+        public static async Task<TEntity> GetAsync<TEntity>(this IDbConnection connection, object id, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
             where TEntity : class
         {
             var sql = BuildGetById(GetSqlBuilder(connection), typeof(TEntity), id, out var parameters);
@@ -75,7 +75,7 @@ namespace Dommel
         /// <param name="connection">The connection to the database. This can either be open or closed.</param>
         /// <param name="ids">The id of the entity in the database.</param>
         /// <returns>The entity with the corresponding id.</returns>
-        public static TEntity? Get<TEntity>(this IDbConnection connection, params object[] ids) where TEntity : class
+        public static TEntity Get<TEntity>(this IDbConnection connection, params object[] ids) where TEntity : class
             => Get<TEntity>(connection, ids, transaction: null);
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Dommel
         /// <param name="ids">The id of the entity in the database.</param>
         /// <param name="transaction">Optional transaction for the command.</param>
         /// <returns>The entity with the corresponding id.</returns>
-        public static TEntity? Get<TEntity>(this IDbConnection connection, object[] ids, IDbTransaction? transaction = null) where TEntity : class
+        public static TEntity Get<TEntity>(this IDbConnection connection, object[] ids, IDbTransaction? transaction = null) where TEntity : class
         {
             if (ids.Length == 1)
             {
@@ -105,7 +105,7 @@ namespace Dommel
         /// <param name="connection">The connection to the database. This can either be open or closed.</param>
         /// <param name="ids">The id of the entity in the database.</param>
         /// <returns>The entity with the corresponding id.</returns>
-        public static Task<TEntity?> GetAsync<TEntity>(this IDbConnection connection, params object[] ids) where TEntity : class
+        public static Task<TEntity> GetAsync<TEntity>(this IDbConnection connection, params object[] ids) where TEntity : class
             => GetAsync<TEntity>(connection, ids, transaction: null, cancellationToken: default);
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Dommel
         /// <param name="transaction">Optional transaction for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token for the command.</param>
         /// <returns>The entity with the corresponding id.</returns>
-        public static async Task<TEntity?> GetAsync<TEntity>(this IDbConnection connection, object[] ids, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+        public static async Task<TEntity> GetAsync<TEntity>(this IDbConnection connection, object[] ids, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
             where TEntity : class
         {
             if (ids.Length == 1)
