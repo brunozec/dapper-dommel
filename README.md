@@ -1,25 +1,14 @@
-# Dommel
-CRUD operations with Dapper made simple.
+# Bornlogic Dommel
+##### CRUD operations with Dapper made simple.
 
-| Windows | Linux | NuGet | MyGet | Test Coverage |
-| ------- | ----- | ----- | ----- | ------------- |
-| [![AppVeyor](https://img.shields.io/appveyor/ci/henkmollema/dommel/master.svg?style=flat-square)](https://ci.appveyor.com/project/henkmollema/dommel) | [![Travis](https://img.shields.io/travis/henkmollema/Dommel.svg?style=flat-square)](https://travis-ci.org/henkmollema/Dommel) | [![NuGet](https://img.shields.io/nuget/vpre/Dommel.svg?style=flat-square)](https://www.nuget.org/packages/Dommel) | [![MyGet Pre Release](https://img.shields.io/myget/dommel-ci/vpre/Dommel.svg?style=flat-square)](https://www.myget.org/feed/dommel-ci/package/nuget/Dommel) | [![codecov](https://codecov.io/gh/henkmollema/Dommel/branch/master/graph/badge.svg)](https://codecov.io/gh/henkmollema/Dommel) |
+This repository is based on [Dommel](https://github.com/henkmollema/Dommel) with new features and bug fixes specific for our use.
+The original NuGet package can be found [here](https://www.nuget.org/packages/Dommel)).
 
 <hr>
 
 Dommel provides a convenient API for CRUD operations using extension methods on the `IDbConnection` interface. The SQL queries are generated based on your POCO entities. Dommel also supports LINQ expressions which are being translated to SQL expressions. [Dapper](https://github.com/StackExchange/Dapper) is used for query execution and object mapping.
 
 There are several extensibility points available to change the behavior of resolving table names, column names, the key property and POCO properties. See [Extensibility](https://github.com/henkmollema/Dommel#extensibility) for more details.
-
-## Download
-
-Dommel is available on [NuGet](https://www.nuget.org/packages/Dommel):
-
-Using the .NET Core CLI:
-#### `dotnet add package Dommel`
-
-Using the NuGet Package Manager:
-#### `PM> Install-Package Dommel`
 
 ## API
 
