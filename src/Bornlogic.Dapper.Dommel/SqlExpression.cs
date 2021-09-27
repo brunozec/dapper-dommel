@@ -459,7 +459,7 @@ namespace Dommel
                 }
                 else
                 {
-                    left = VisitExpression(expression.Left);
+                    left = $"({VisitExpression(expression.Left)})";
                 }
 
                 if (expression.Right is MemberExpression rightMember && rightMember.Expression?.NodeType == ExpressionType.Parameter)
@@ -468,7 +468,7 @@ namespace Dommel
                 }
                 else
                 {
-                    right = VisitExpression(expression.Right);
+                    right = $"({VisitExpression(expression.Right)})";
                 }
             }
             else
