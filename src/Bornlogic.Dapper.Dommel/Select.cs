@@ -93,13 +93,20 @@ namespace Dommel
         /// <param name="pageSize">The page size.</param>
         /// <param name="transaction">Optional transaction for the command.</param>
         /// <param name="cancellationToken">Optional cancellation token for the command.</param>
+        /// <param name="orderBy">Order by query with or without the order by statement.</param>
         /// <returns>
         /// A collection of entities of type <typeparamref name="TEntity"/> matching the specified
         /// <paramref name="predicate"/>.
         /// </returns>
-        public static Task<IEnumerable<TEntity>> SelectPagedAsync<TEntity>(this IDbConnection connection, Expression<Func<TEntity, bool>> predicate, int pageNumber, int pageSize, IDbTransaction? transaction = null, CancellationToken cancellationToken = default)
+        public static Task<IEnumerable<TEntity>> SelectPagedAsync<TEntity>(this IDbConnection connection, 
+            Expression<Func<TEntity, bool>> predicate, 
+            int pageNumber,
+            int pageSize, 
+            IDbTransaction? transaction = null, 
+            CancellationToken cancellationToken = default,
+            string orderBy = null)
         {
-            var sql = BuildSelectPagedQuery(connection, predicate, pageNumber, pageSize, out var parameters);
+            var sql = BuildSelectPagedQuery(connection, predicate, pageNumber, pageSize, out var parameters, orderBy);
             LogQuery<TEntity>(sql);
             return connection.QueryAsync<TEntity>(new CommandDefinition(sql, parameters, transaction, cancellationToken: cancellationToken));
         }
@@ -116,9 +123,11 @@ namespace Dommel
             var sql = BuildSelectSql(connection, predicate, out parameters);
 
             // Append the paging part including the order by
-            var keyColumns = Resolvers.KeyProperties(typeof(TEntity)).Select(p => Resolvers.Column(p.Property, connection));
-            if(string.IsNullOrWhiteSpace(orderBy))
+            if (string.IsNullOrWhiteSpace(orderBy))
+            {
+                var keyColumns = Resolvers.KeyProperties(typeof(TEntity)).Select(p => Resolvers.Column(p.Property, connection));
                 orderBy = "order by " + string.Join(", ", keyColumns);
+            }
             else if(!orderBy.Contains("order by"))
                 orderBy = $"order by {orderBy}";
                 
