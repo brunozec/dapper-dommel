@@ -78,22 +78,21 @@ namespace Dommel
         {
             var tableName = Resolvers.Table(type, sqlBuilder);
             var cacheKey = new QueryCacheKey(QueryCacheType.Insert, sqlBuilder, type, tableName);
-            if (!QueryCache.TryGetValue(cacheKey, out var sql))
-            {
-                // Use all non-key and non-generated properties for inserts
-                var keyProperties = Resolvers.KeyProperties(type);
-                var typeProperties = Resolvers.Properties(type)
-                    .Where(x => !x.IsGenerated)
-                    .Select(x => x.Property)
-                    .Except(keyProperties.Where(p => p.IsGenerated).Select(p => p.Property));
+            if (QueryCache.TryGetValue(cacheKey, out var sql)) return sql;
+            
+            // Use all non-key and non-generated properties for inserts
+            var keyProperties = Resolvers.KeyProperties(type);
+            var typeProperties = Resolvers.Properties(type)
+                .Where(x => !x.IsGenerated)
+                .Select(x => x.Property)
+                .Except(keyProperties.Where(p => p.IsGenerated).Select(p => p.Property));
 
-                var columnNames = typeProperties.Select(p => Resolvers.Column(p, sqlBuilder)).ToArray();
-                var paramNames = typeProperties.Select(p => sqlBuilder.PrefixParameter(p.Name)).ToArray();
+            var columnNames = typeProperties.Select(p => Resolvers.Column(p, sqlBuilder)).ToArray();
+            var paramNames = typeProperties.Select(p => sqlBuilder.PrefixParameter(p.Name)).ToArray();
 
-                sql = sqlBuilder.BuildInsert(type, tableName, columnNames, paramNames);
+            sql = sqlBuilder.BuildInsert(type, tableName, columnNames, paramNames);
 
-                QueryCache.TryAdd(cacheKey, sql);
-            }
+            QueryCache.TryAdd(cacheKey, sql);
 
             return sql;
         }
