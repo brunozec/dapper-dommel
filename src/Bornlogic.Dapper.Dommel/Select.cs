@@ -52,20 +52,6 @@ namespace Dommel
             return connection.QueryFirstOrDefault<TEntity>(sql, parameters, transaction);
         }
 
-        private static string BuildSelectSql<TEntity>(IDbConnection connection, Expression<Func<TEntity, bool>> predicate, out DynamicParameters parameters)
-        {
-            var type = typeof(TEntity);
-
-            // Build the select all part
-            var sql = BuildGetAllQuery(connection, type);
-
-            // Append the where statement
-            sql += CreateSqlExpression<TEntity>(GetSqlBuilder(connection))
-                .Where(predicate)
-                .ToSql(out parameters);
-            return sql;
-        }
-
         /// <summary>
         /// Selects all the entities matching the specified predicate.
         /// </summary>
@@ -79,13 +65,20 @@ namespace Dommel
         /// A value indicating whether the result of the query should be executed directly,
         /// or when the query is materialized (using <c>ToList()</c> for example).
         /// </param>
+        /// <param name="orderBy">Order by query with or without the order by statement.</param>
         /// <returns>
         /// A collection of entities of type <typeparamref name="TEntity"/> matching the specified
         /// <paramref name="predicate"/>.
         /// </returns>
-        public static IEnumerable<TEntity> SelectPaged<TEntity>(this IDbConnection connection, Expression<Func<TEntity, bool>> predicate, int pageNumber, int pageSize, IDbTransaction? transaction = null, bool buffered = true)
+        public static IEnumerable<TEntity> SelectPaged<TEntity>(this IDbConnection connection, 
+            Expression<Func<TEntity, bool>> predicate, 
+            int pageNumber, 
+            int pageSize, 
+            IDbTransaction? transaction = null,
+            bool buffered = true,
+            string orderBy = null)
         {
-            var sql = BuildSelectPagedQuery(connection, predicate, pageNumber, pageSize, out var parameters);
+            var sql = BuildSelectPagedQuery(connection, predicate, pageNumber, pageSize, out var parameters, orderBy);
             LogQuery<TEntity>(sql);
             return connection.Query<TEntity>(sql, parameters, transaction, buffered);
         }
@@ -111,15 +104,39 @@ namespace Dommel
             return connection.QueryAsync<TEntity>(new CommandDefinition(sql, parameters, transaction, cancellationToken: cancellationToken));
         }
 
-        private static string BuildSelectPagedQuery<TEntity>(IDbConnection connection, Expression<Func<TEntity, bool>> predicate, int pageNumber, int pageSize, out DynamicParameters parameters)
+        private static string BuildSelectPagedQuery<TEntity>(
+            IDbConnection connection, 
+            Expression<Func<TEntity, bool>> predicate, 
+            int pageNumber, 
+            int pageSize, 
+            out DynamicParameters parameters,
+            string orderBy = null)
         {
             // Start with the select query part
             var sql = BuildSelectSql(connection, predicate, out parameters);
 
             // Append the paging part including the order by
             var keyColumns = Resolvers.KeyProperties(typeof(TEntity)).Select(p => Resolvers.Column(p.Property, connection));
-            var orderBy = "order by " + string.Join(", ", keyColumns);
+            if(string.IsNullOrWhiteSpace(orderBy))
+                orderBy = "order by " + string.Join(", ", keyColumns);
+            else if(!orderBy.Contains("order by"))
+                orderBy = $"order by {orderBy}";
+                
             sql += GetSqlBuilder(connection).BuildPaging(orderBy, pageNumber, pageSize);
+            return sql;
+        }
+
+        private static string BuildSelectSql<TEntity>(IDbConnection connection, Expression<Func<TEntity, bool>> predicate, out DynamicParameters parameters)
+        {
+            var type = typeof(TEntity);
+
+            // Build the select all part
+            var sql = BuildGetAllQuery(connection, type);
+
+            // Append the where statement
+            sql += CreateSqlExpression<TEntity>(GetSqlBuilder(connection))
+                .Where(predicate)
+                .ToSql(out parameters);
             return sql;
         }
     }

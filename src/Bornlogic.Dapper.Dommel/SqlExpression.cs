@@ -91,19 +91,8 @@ namespace Dommel
         /// <returns>The current <see cref="SqlExpression{TEntity}"/> instance.</returns>
         public virtual SqlExpression<TEntity> Where(Expression<Func<TEntity, bool>>? expression)
         {
-            if (expression != null)
-            {
-                if (_whereBuilder.Length == 0)
-                {
-                    // Start a new where expression
-                    AppendToWhere(null, expression);
-                }
-                else
-                {
-                    // Append a where expression with the 'and' operator
-                    AppendToWhere("and", expression);
-                }
-            }
+            if (expression == null) return this;
+            AppendToWhere(_whereBuilder.Length == 0 ? null : "and", expression);
 
             return this;
         }
