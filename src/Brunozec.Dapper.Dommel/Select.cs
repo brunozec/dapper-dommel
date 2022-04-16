@@ -32,6 +32,29 @@ namespace Brunozec.Dapper.Dommel
             LogQuery<TEntity>(sql);
             return connection.Query<TEntity>(sql, parameters, transaction, buffered);
         } 
+        
+        /// <summary>
+        /// Selects all the entities matching the specified predicate.
+        /// </summary>
+        /// <typeparam name="TEntity">The type of the entity.</typeparam>
+        /// <param name="connection">The connection to the database. This can either be open or closed.</param>
+        /// <param name="predicate">A predicate to filter the results.</param>
+        /// <param name="transaction">Optional transaction for the command.</param>
+        /// <param name="buffered">
+        /// A value indicating whether the result of the query should be executed directly,
+        /// or when the query is materialized (using <c>ToList()</c> for example).
+        /// </param>
+        /// <returns>
+        /// A collection of entities of type <typeparamref name="TEntity"/> matching the specified
+        /// <paramref name="predicate"/>.
+        /// </returns>
+        public static Task<IEnumerable<TEntity>> SelectAsync<TEntity>(this IDbConnection connection, Expression<Func<TEntity, bool>> predicate, IDbTransaction? transaction = null, bool buffered = true,
+            CancellationToken cancellationToken = default)
+        {
+            var sql = BuildSelectSql(connection, predicate, out var parameters);
+            LogQuery<TEntity>(sql);
+            return connection.QueryAsync<TEntity>(new CommandDefinition(sql, parameters, transaction, cancellationToken: cancellationToken));
+        } 
 
         /// <summary>
         /// Selects the first entity matching the specified predicate, or a default value if no entity matched.
