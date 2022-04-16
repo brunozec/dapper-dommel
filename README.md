@@ -1,4 +1,4 @@
-# Brunozec Dommel
+# Dapper Dommel
 ##### CRUD operations with Dapper made simple.
 
 This repository is based on [Dommel](https://github.com/henkmollema/Dommel) with new features and bug fixes specific for our use.
@@ -8,7 +8,7 @@ The original NuGet package can be found [here](https://www.nuget.org/packages/Do
 
 Dommel provides a convenient API for CRUD operations using extension methods on the `IDbConnection` interface. The SQL queries are generated based on your POCO entities. Dommel also supports LINQ expressions which are being translated to SQL expressions. [Dapper](https://github.com/StackExchange/Dapper) is used for query execution and object mapping.
 
-There are several extensibility points available to change the behavior of resolving table names, column names, the key property and POCO properties. See [Extensibility](https://github.com/henkmollema/Dommel#extensibility) for more details.
+There are several extensibility points available to change the behavior of resolving table names, column names, the key property and POCO properties. See [Extensibility](https://github.com/brunozec/dapper-dommel#extensibility) for more details.
 
 ## API
 
