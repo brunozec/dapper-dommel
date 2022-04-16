@@ -65,9 +65,8 @@ jobs:
         git config --global user.email ${{ env.BOT_EMAIL }}
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
         git checkout "${GITHUB_REF:11}"
-        dotnet tool install --global Versionize --version 1.13.0
+        dotnet tool install --global Versionize --version 1.12.1
         versionize --skip-dirty && git push --follow-tags origin "${GITHUB_REF:11}"
-
     - name: Pack
       if: ${{ success() }}
       run: dotnet pack --configuration Release -o output
@@ -79,4 +78,4 @@ jobs:
           --source https://nuget.pkg.github.com/brunozec/index.json \
           --api-key ${{ secrets.GITHUB_TOKEN }} \
           --skip-duplicate \
-          --no-symbols true
+          --no-symbols
