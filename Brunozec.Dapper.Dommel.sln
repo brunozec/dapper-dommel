@@ -1,0 +1,59 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31521.260
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{52003D59-962F-488A-A712-85CB866D6ADF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{2AA4F2B7-9A15-4246-B7B8-084F75FAF208}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B850D48C-10D3-4EF7-AE61-873068211FD2}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		NuGet.Config = NuGet.Config
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brunozec.Dapper.Dommel", "src\Brunozec.Dapper.Dommel\Brunozec.Dapper.Dommel.csproj", "{56688D19-9AC8-4DE0-900D-49FC89B289C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brunozec.Dapper.Dommel.Json", "src\Brunozec.Dapper.Dommel.Json\Brunozec.Dapper.Dommel.Json.csproj", "{31A1A6C3-14E0-44C9-8B7B-882DA82125D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brunozec.Dapper.Dommel.Json.Tests", "test\Brunozec.Dapper.Dommel.Json.Tests\Brunozec.Dapper.Dommel.Json.Tests.csproj", "{96E2F573-CFDF-43FD-A7A3-2BA1C06A589B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brunozec.Dapper.Dommel.Tests", "test\Brunozec.Dapper.Dommel.Tests\Brunozec.Dapper.Dommel.Tests.csproj", "{1C91FE11-C479-4331-BA90-C30473D5AB01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56688D19-9AC8-4DE0-900D-49FC89B289C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56688D19-9AC8-4DE0-900D-49FC89B289C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56688D19-9AC8-4DE0-900D-49FC89B289C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56688D19-9AC8-4DE0-900D-49FC89B289C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31A1A6C3-14E0-44C9-8B7B-882DA82125D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31A1A6C3-14E0-44C9-8B7B-882DA82125D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31A1A6C3-14E0-44C9-8B7B-882DA82125D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31A1A6C3-14E0-44C9-8B7B-882DA82125D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96E2F573-CFDF-43FD-A7A3-2BA1C06A589B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96E2F573-CFDF-43FD-A7A3-2BA1C06A589B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96E2F573-CFDF-43FD-A7A3-2BA1C06A589B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96E2F573-CFDF-43FD-A7A3-2BA1C06A589B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C91FE11-C479-4331-BA90-C30473D5AB01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C91FE11-C479-4331-BA90-C30473D5AB01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C91FE11-C479-4331-BA90-C30473D5AB01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C91FE11-C479-4331-BA90-C30473D5AB01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{56688D19-9AC8-4DE0-900D-49FC89B289C9} = {52003D59-962F-488A-A712-85CB866D6ADF}
+		{31A1A6C3-14E0-44C9-8B7B-882DA82125D1} = {52003D59-962F-488A-A712-85CB866D6ADF}
+		{96E2F573-CFDF-43FD-A7A3-2BA1C06A589B} = {2AA4F2B7-9A15-4246-B7B8-084F75FAF208}
+		{1C91FE11-C479-4331-BA90-C30473D5AB01} = {2AA4F2B7-9A15-4246-B7B8-084F75FAF208}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E763489D-74B8-4006-91E1-47F75B5D5E80}
+	EndGlobalSection
+EndGlobal

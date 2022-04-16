@@ -1,4 +1,4 @@
-# Bornlogic Dommel
+# Brunozec Dommel
 ##### CRUD operations with Dapper made simple.
 
 This repository is based on [Dommel](https://github.com/henkmollema/Dommel) with new features and bug fixes specific for our use.

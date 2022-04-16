@@ -1,3 +1,0 @@
-﻿using System.Runtime.CompilerServices;
-[assembly: InternalsVisibleTo("Bornlogic.Dapper.Dommel.Tests")]
-[assembly: InternalsVisibleTo("Bornlogic.Dapper.Dommel.Json.Tests")]
