@@ -11,12 +11,12 @@ defaults:
 env:
   GPR_USERNAME: ${{ secrets.GPR_USERNAME }}
   GPR_TOKEN: ${{ secrets.GPR_TOKEN }}
-  DOTNET_VERSION: 5.0.300
+  DOTNET_VERSION: 6.0.x
 
 jobs:
   test:
     name: Test
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
@@ -27,6 +27,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+        include-prerelease: true
 
     - name: Test
       if: ${{ success() }}
@@ -34,12 +35,12 @@ jobs:
 
   build:
     name: Publish
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     needs: test
     env:
       LAST_COMMITTER_EMAIL: $(git log -1 --pretty=format:'%ae')
       BOT_NAME: Actions
-      BOT_EMAIL: actions@bornlogic.com
+      BOT_EMAIL: actions@brunozec.com
 
     steps:
     - name: Checkout
@@ -51,6 +52,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
+        include-prerelease: true
 
     - name: Build
       if: ${{ success() }}
@@ -63,7 +65,7 @@ jobs:
         git config --global user.email ${{ env.BOT_EMAIL }}
         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
         git checkout "${GITHUB_REF:11}"
-        dotnet tool install --global Versionize --version 1.6.2
+        dotnet tool install --global Versionize --version 1.13.0
         versionize --skip-dirty && git push --follow-tags origin "${GITHUB_REF:11}"
 
     - name: Pack
@@ -74,7 +76,7 @@ jobs:
       if: ${{ success() }}
       run: |
         dotnet nuget push "output/*.nupkg" \
-          --source https://nuget.pkg.github.com/bornlogic/index.json \
+          --source https://nuget.pkg.github.com/brunozec/index.json \
           --api-key ${{ secrets.GITHUB_TOKEN }} \
           --skip-duplicate \
           --no-symbols true
